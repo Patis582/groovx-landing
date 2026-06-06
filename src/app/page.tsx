@@ -2,6 +2,7 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import PhoneFrame from "@/components/PhoneFrame";
+import TradersMap from "@/components/TradersMap";
 import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
 import FadeIn from "@/components/FadeIn";
@@ -126,7 +127,7 @@ export default function Home() {
               </div>
             </FeatureCard>
 
-            <FeatureCard delay={0.1}>
+            <FeatureCard delay={0.1} mapCard>
               <div className="feat-sc-hdr">
                 <span className="feat-sc-num">02</span>
                 <h3 className="feat-sc-name">Traders Map</h3>
@@ -135,9 +136,7 @@ export default function Home() {
                   community, finally.
                 </p>
               </div>
-              <div className="feat-sc-img">
-                <PhoneFrame src="/map.PNG" alt="Traders map" width={220} height={478} glowVariant="purple" />
-              </div>
+              <TradersMap />
             </FeatureCard>
 
             <FeatureCard delay={0.2}>

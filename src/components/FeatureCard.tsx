@@ -6,12 +6,14 @@ interface FeatureCardProps {
   children: ReactNode;
   delay?: number;
   className?: string;
+  mapCard?: boolean;
 }
 
-export default function FeatureCard({ children, delay = 0, className = "" }: FeatureCardProps) {
+export default function FeatureCard({ children, delay = 0, className = "", mapCard = false }: FeatureCardProps) {
   return (
     <motion.div
       className={`feat-sc-card ${className}`}
+      style={mapCard ? { display: "flex", flexDirection: "column" } : undefined}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
