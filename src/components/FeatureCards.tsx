@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-type Feature = { icon: ReactNode; title: string; desc: string };
+type Feature = { icon: ReactNode; num: string; title: string; desc: string };
 
 const Icon = ({ children }: { children: ReactNode }) => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -13,6 +13,7 @@ const Icon = ({ children }: { children: ReactNode }) => (
 
 const FEATURES: Feature[] = [
   {
+    num: "01",
     icon: <Icon>
       <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
       <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
@@ -21,6 +22,7 @@ const FEATURES: Feature[] = [
     desc: "Not just text posts. Structured trade data with instrument, entry, exit, SL/TP, RR ratio and chart screenshot. Every trade tells the full story.",
   },
   {
+    num: "02",
     icon: <Icon>
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       <polyline points="9 12 11 14 15 10"/>
@@ -29,6 +31,7 @@ const FEATURES: Feature[] = [
     desc: "Connect your MyFXBook account and every imported trade gets a verification badge. No more fake results.",
   },
   {
+    num: "03",
     icon: <Icon>
       <circle cx="12" cy="12" r="10"/>
       <line x1="2" y1="12" x2="22" y2="12"/>
@@ -38,6 +41,7 @@ const FEATURES: Feature[] = [
     desc: "Discover traders near you on an interactive globe. See who's trading in your city. Ghost Mode keeps you invisible if you prefer.",
   },
   {
+    num: "04",
     icon: <Icon>
       <circle cx="12" cy="8" r="7"/>
       <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
@@ -46,6 +50,7 @@ const FEATURES: Feature[] = [
     desc: "Upload your prop firm certificate and payout proof. We verify it manually. Your profile shows the world you're the real deal.",
   },
   {
+    num: "05",
     icon: <Icon>
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
       <circle cx="9" cy="7" r="4"/>
@@ -55,6 +60,7 @@ const FEATURES: Feature[] = [
     desc: "Create or join trading communities. Public or private. Built-in chat, bias polls and moderator roles.",
   },
   {
+    num: "06",
     icon: <Icon>
       <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
       <polyline points="17 6 23 6 23 12"/>
@@ -71,7 +77,10 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
 };
 
 export default function FeatureCards() {
@@ -90,11 +99,11 @@ export default function FeatureCards() {
           variants={item}
           whileHover={{
             y: -4,
-            borderColor: "rgba(45,212,191,0.38)",
-            boxShadow: "0 20px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(45,212,191,.18), 0 0 32px rgba(45,212,191,.07)",
+            boxShadow: "0 24px 56px rgba(0,0,0,.55), 0 0 0 1px rgba(45,212,191,.35), 0 0 28px rgba(45,212,191,.08)",
+            transition: { type: "spring", stiffness: 320, damping: 28 },
           }}
-          transition={{ type: "spring", stiffness: 320, damping: 28 }}
         >
+          <span className="feat-grid-num">{f.num}</span>
           <div className="feat-grid-icon">{f.icon}</div>
           <h3 className="feat-grid-title">{f.title}</h3>
           <p className="feat-grid-desc">{f.desc}</p>
