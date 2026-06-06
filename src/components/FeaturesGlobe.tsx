@@ -13,11 +13,11 @@ const CITIES = [
 ];
 
 const ACCENT = "#2DD4BF";
+const DEG_PER_SEC = 8; // full rotation in ~45 seconds
 
 export default function FeaturesGlobe() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rotatingRef = useRef(true);
-  const rafRef = useRef<number>(0);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -36,6 +36,13 @@ export default function FeaturesGlobe() {
       attributionControl: false,
       logoPosition: "bottom-right",
     });
+
+    const spinGlobe = () => {
+      if (!rotatingRef.current) return;
+      const center = map.getCenter();
+      center.lng -= DEG_PER_SEC;
+      map.easeTo({ center, duration: 1000, easing: (n) => n });
+    };
 
     map.on("style.load", () => {
       map.setFog({
@@ -91,23 +98,19 @@ export default function FeaturesGlobe() {
         requestAnimationFrame(pulse);
       };
       pulse();
+      spinGlobe();
     });
 
-    const rotate = () => {
-      if (!rotatingRef.current) return;
-      map.easeTo({ bearing: map.getBearing() + 0.5, duration: 0, easing: (x) => x });
-      rafRef.current = requestAnimationFrame(rotate);
-    };
-
-    map.on("load", () => requestAnimationFrame(rotate));
+    // Chain next spin after each move completes
+    map.on("moveend", spinGlobe);
 
     const stopRotate = () => {
       rotatingRef.current = false;
-      cancelAnimationFrame(rafRef.current);
+      map.stop();
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
       resumeTimerRef.current = setTimeout(() => {
         rotatingRef.current = true;
-        requestAnimationFrame(rotate);
+        spinGlobe();
       }, 3000);
     };
 
@@ -115,7 +118,6 @@ export default function FeaturesGlobe() {
     map.on("touchstart", stopRotate);
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
       map.remove();
     };
@@ -123,16 +125,13 @@ export default function FeaturesGlobe() {
 
   return (
     <div className="feat-globe-wrap">
-      {/* Label */}
       <div className="feat-globe-label">
         <span className="feat-globe-dot" />
         Live on GroovX
       </div>
 
-      {/* Map */}
       <div ref={containerRef} className="feat-globe-map" />
 
-      {/* City chips */}
       <div className="feat-globe-chips">
         {CITIES.map(({ name, count }) => (
           <div key={name} className="feat-globe-chip">
