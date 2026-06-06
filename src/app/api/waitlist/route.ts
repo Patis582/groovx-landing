@@ -16,6 +16,10 @@ export async function POST(req: NextRequest) {
 
   const supabase = createServerClient();
 
+  if (!supabase) {
+    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+  }
+
   const { count } = await supabase
     .from("waitlist")
     .select("*", { count: "exact", head: true });

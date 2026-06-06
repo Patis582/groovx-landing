@@ -4,6 +4,10 @@ import { createServerClient } from "@/lib/supabase";
 export async function GET() {
   const supabase = createServerClient();
 
+  if (!supabase) {
+    return NextResponse.json({ count: 0, total: 100 });
+  }
+
   const { count, error } = await supabase
     .from("waitlist")
     .select("*", { count: "exact", head: true });
