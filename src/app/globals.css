@@ -755,13 +755,13 @@ h1,h2,h3,h4 {
   line-height: 1.72;
 }
 
-/* ── FEATURES GLOBE ── */
+/* ── FEATURES GLOBE — full-width breakout ── */
 .feat-globe-wrap {
-  margin-top: 20px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+  margin-top: 64px;
   position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .feat-globe-label {
@@ -795,7 +795,7 @@ h1,h2,h3,h4 {
 
 .feat-globe-map {
   width: 100%;
-  height: 500px;
+  height: 560px;
   display: block;
 }
 

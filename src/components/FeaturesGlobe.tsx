@@ -43,20 +43,37 @@ export default function FeaturesGlobe() {
         "high-color": "#0D1117",
         "horizon-blend": 0.03,
         "space-color": "#0D1117",
-        "star-intensity": 0.3,
+        "star-intensity": 0.85,
       });
 
-      CITIES.forEach(({ name, lng, lat }) => {
+      CITIES.forEach(({ name, lng, lat, count }) => {
         const id = name.replace(/\s/g, "_").toLowerCase();
         map.addSource(id, {
           type: "geojson",
           data: {
             type: "FeatureCollection",
-            features: [{ type: "Feature", geometry: { type: "Point", coordinates: [lng, lat] }, properties: { name } }],
+            features: [{ type: "Feature", geometry: { type: "Point", coordinates: [lng, lat] }, properties: { name, count } }],
           },
         });
         map.addLayer({ id: `${id}_halo`, type: "circle", source: id, paint: { "circle-radius": 14, "circle-color": ACCENT, "circle-opacity": 0.1, "circle-blur": 1 } });
         map.addLayer({ id: `${id}_dot`,  type: "circle", source: id, paint: { "circle-radius": 5, "circle-color": ACCENT, "circle-opacity": 0.95, "circle-stroke-width": 1.5, "circle-stroke-color": "rgba(255,255,255,0.3)" } });
+        map.addLayer({
+          id: `${id}_count`,
+          type: "symbol",
+          source: id,
+          layout: {
+            "text-field": ["get", "count"],
+            "text-font": ["DIN Pro Bold", "Arial Unicode MS Bold"],
+            "text-size": 11,
+            "text-offset": [0, 1.4],
+            "text-anchor": "top",
+          },
+          paint: {
+            "text-color": ACCENT,
+            "text-halo-color": "rgba(13,17,23,0.9)",
+            "text-halo-width": 2,
+          },
+        });
       });
 
       let t = 0;

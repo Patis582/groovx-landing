@@ -66,8 +66,10 @@ export default function Home() {
           </FadeIn>
 
           <FeatureCards />
-          <FeaturesGlobe />
         </div>
+
+        {/* Full-width globe — outside container */}
+        <FeaturesGlobe />
       </section>
 
       <PricingSection />
