@@ -68,23 +68,27 @@ export default function Home() {
           <div className="feat-rows">
 
             {/* 01 — Trade Cards */}
-            <div className="feat-row">
+            <div className="feat-row" style={{ "--row-glow": "rgba(167,139,250,0.22)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">01</div>
-                <div className="feat-row-tag">Trade Cards</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">01</span>
+                  <span className="feat-row-tag">Trade Cards</span>
+                </div>
                 <h3 className="feat-row-title">Structured, verifiable<br />trade data.</h3>
                 <p className="feat-row-desc">Not just screenshots. Entry, exit, R-multiple, direction — every trade in a structured card that anyone can read and verify. No edits, no exaggerations.</p>
               </FadeIn>
               <FadeIn delay={0.15} className="feat-row-visual">
-                <PhoneFrame src="/tradecard_detail.PNG" alt="Trade card detail" width={248} height={538} glowVariant="purple" />
+                <PhoneFrame src="/tradecard_detail.PNG" alt="Trade card detail" width={256} height={556} glowVariant="purple" />
               </FadeIn>
             </div>
 
             {/* 02 — Traders Map */}
-            <div className="feat-row feat-row-rev">
+            <div className="feat-row feat-row-rev" style={{ "--row-glow": "rgba(45,212,191,0.2)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">02</div>
-                <div className="feat-row-tag">Traders Map</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">02</span>
+                  <span className="feat-row-tag">Traders Map</span>
+                </div>
                 <h3 className="feat-row-title">Your city is full of<br />traders. Find them.</h3>
                 <p className="feat-row-desc">An interactive globe showing verified traders near you. Filter by style, instrument, prop firm. The local trading scene, finally visible.</p>
               </FadeIn>
@@ -96,23 +100,27 @@ export default function Home() {
             </div>
 
             {/* 03 — Funded Badge */}
-            <div className="feat-row">
+            <div className="feat-row" style={{ "--row-glow": "rgba(45,212,191,0.2)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">03</div>
-                <div className="feat-row-tag">Funded Badge</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">03</span>
+                  <span className="feat-row-tag">Funded Badge</span>
+                </div>
                 <h3 className="feat-row-title">Verified prop firm status.<br />No fakes.</h3>
                 <p className="feat-row-desc">API-connected to FTMO, Apex, TopstepX, and more. Your funded status is on your profile — verified at source, not self-reported.</p>
               </FadeIn>
               <FadeIn delay={0.15} className="feat-row-visual">
-                <PhoneFrame src="/prifle.PNG" alt="Funded trader profile" width={248} height={538} />
+                <PhoneFrame src="/prifle.PNG" alt="Funded trader profile" width={256} height={556} />
               </FadeIn>
             </div>
 
             {/* 04 — Trade Import */}
-            <div className="feat-row feat-row-rev">
+            <div className="feat-row feat-row-rev" style={{ "--row-glow": "rgba(245,158,11,0.15)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">04</div>
-                <div className="feat-row-tag">Trade Import</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">04</span>
+                  <span className="feat-row-tag">Trade Import</span>
+                </div>
                 <h3 className="feat-row-title">Your full history,<br />synced automatically.</h3>
                 <p className="feat-row-desc">Connect MyFXBook or drop a CSV — GroovX imports your complete trade history and maps every trade to a card. One click, full transparency.</p>
               </FadeIn>
@@ -147,23 +155,27 @@ export default function Home() {
             </div>
 
             {/* 05 — Communities */}
-            <div className="feat-row">
+            <div className="feat-row" style={{ "--row-glow": "rgba(167,139,250,0.22)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">05</div>
-                <div className="feat-row-tag">Communities</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">05</span>
+                  <span className="feat-row-tag">Communities</span>
+                </div>
                 <h3 className="feat-row-title">Groups built for<br />real traders.</h3>
                 <p className="feat-row-desc">Public or private. Polls, live chat, member roles, and trade feeds. Build a community that actually talks about trading — not just posts screenshots.</p>
               </FadeIn>
               <FadeIn delay={0.15} className="feat-row-visual">
-                <PhoneFrame src="/community.PNG" alt="GroovX community" width={248} height={538} />
+                <PhoneFrame src="/community.PNG" alt="GroovX community" width={256} height={556} />
               </FadeIn>
             </div>
 
             {/* 06 — Profile Stats */}
-            <div className="feat-row feat-row-rev">
+            <div className="feat-row feat-row-rev" style={{ "--row-glow": "rgba(45,212,191,0.2)" } as React.CSSProperties}>
               <FadeIn className="feat-row-text">
-                <div className="feat-row-bg-num">06</div>
-                <div className="feat-row-tag">Profile Stats</div>
+                <div className="feat-row-head">
+                  <span className="feat-row-num">06</span>
+                  <span className="feat-row-tag">Profile Stats</span>
+                </div>
                 <h3 className="feat-row-title">Your trading identity,<br />quantified.</h3>
                 <p className="feat-row-desc">Win rate, average R, profit factor — calculated from your verified trade history and shown publicly on your profile. No hiding, no inflating.</p>
               </FadeIn>
