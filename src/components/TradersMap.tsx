@@ -135,14 +135,13 @@ export default function TradersMap() {
   }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%", flex: 1 }}>
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <div
         ref={containerRef}
         style={{
           width: "100%",
           height: "100%",
-          minHeight: 320,
-          borderRadius: "0 0 22px 22px",
+          minHeight: 340,
         }}
       />
       {/* Trader count chips */}
