@@ -662,15 +662,150 @@ h1,h2,h3,h4 {
 .fsm-stat-l { font-size: 10px; color: var(--text-tertiary); }
 
 
-/* ── FEATURES ── */
-.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 52px; }
-.feat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; transition: border-color .25s, transform .2s, background .2s; position: relative; overflow: hidden; }
-.feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity .3s; }
-.feat-card:hover { border-color: var(--border-accent); transform: translateY(-4px); background: var(--bg-elevated); }
-.feat-card:hover::before { opacity: 1; }
-.feat-icon { font-size: 24px; margin-bottom: 16px; }
-.feat-name { font-family: var(--font-manrope), sans-serif; font-weight: 700; font-size: 15px; color: var(--text-primary); margin-bottom: 8px; }
-.feat-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+/* ── FEATURE GRID CARDS ── */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 56px;
+}
+
+.feat-grid-card {
+  background: #1C2128;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  will-change: transform;
+}
+
+.feat-grid-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45,212,191,0.3), transparent);
+  opacity: 0;
+  transition: opacity .4s;
+}
+
+.feat-grid-card:hover::after { opacity: 1; }
+
+.feat-grid-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: rgba(45,212,191,0.08);
+  border: 1px solid rgba(45,212,191,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.feat-grid-title {
+  font-family: var(--font-manrope), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  letter-spacing: -.015em;
+}
+
+.feat-grid-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.72;
+}
+
+/* ── FEATURES GLOBE ── */
+.feat-globe-wrap {
+  margin-top: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.feat-globe-label {
+  position: absolute;
+  top: 18px; left: 18px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(13,17,23,0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: .04em;
+}
+
+.feat-globe-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34,197,94,.7);
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.feat-globe-map {
+  width: 100%;
+  height: 500px;
+  display: block;
+}
+
+.feat-globe-chips {
+  position: absolute;
+  bottom: 16px; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.feat-globe-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(13,17,23,0.82);
+  border: 1px solid rgba(45,212,191,0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.feat-globe-chip-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .feat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .feat-grid { grid-template-columns: 1fr; }
+  .feat-globe-map { height: 360px; }
+}
 
 /* ── SPOTLIGHT ── */
 .spot-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
