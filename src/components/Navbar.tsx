@@ -20,10 +20,6 @@ export default function Navbar() {
             <Image src="/logo.svg" alt="GroovX" width={34} height={34} priority />
             <span className="logo-text">GroovX</span>
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <a href="#" className="btn-ghost">Sign in</a>
-            <a href="#waitlist" className="btn-primary">Get Early Access →</a>
-          </div>
         </div>
       </div>
     </nav>

@@ -1,40 +1,76 @@
 "use client";
+import { motion } from "framer-motion";
 
 function scrollToWaitlist() {
   document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" });
 }
 
-const freeTier = ["10 trade cards / month", "5 direct messages / day", "Join public communities", "Basic profile stats", "Traders Map access"];
-const proTier = ["Unlimited trade cards", "CSV & MyFXBook import", "Ghost Mode (private browsing)", "Create & manage communities", "Advanced analytics", "Priority support"];
-const eliteTier = ["Everything in Pro", "API-verified funded badge", "Elite ⚡ profile badge", "Paid community creation", "Institutional analytics"];
+const freeTier = [
+  "10 trade cards / month",
+  "5 direct messages / day",
+  "Join public communities",
+  "Basic profile stats",
+  "Traders Map access",
+];
+
+const proTier = [
+  "Unlimited trade cards",
+  "CSV & MyFXBook import",
+  "Ghost Mode (private browsing)",
+  "Create & manage communities",
+  "Advanced analytics & equity curve",
+  "API-verified funded badge",
+  "Priority support",
+];
 
 export default function PricingSection() {
   return (
     <section className="section" id="pricing">
       <div className="container">
         <div style={{ textAlign: "center" }}>
-          <span className="section-label fu">Pricing</span>
-          <h2
-            className="fu"
-            style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 800, transitionDelay: "100ms" }}
+          <motion.span
+            className="section-label"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            Simple pricing. No surprises.
-          </h2>
-          <p
-            className="fu"
-            style={{ fontSize: 14, color: "var(--text-tertiary)", marginTop: 10, transitionDelay: "200ms" }}
+            What You Get
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 800 }}
           >
-            Pricing announced at launch — join the waitlist for an exclusive early bird deal.
-          </p>
+            Join early. Lock in Pro free.
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            style={{ fontSize: 14, color: "var(--text-tertiary)", marginTop: 10 }}
+          >
+            The first 100 traders get Pro forever — no price, no card, no expiry.
+          </motion.p>
         </div>
-        <div className="pricing-grid">
+        <div className="pricing-grid-2">
           {/* FREE */}
-          <div className="price-card fu">
+          <motion.div
+            className="price-card"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          >
             <div className="price-tier" style={{ color: "var(--text-secondary)" }}>Free</div>
-            <div className="price-desc">Perfect for getting started and building your profile.</div>
-            <div className="price-main">$0</div>
-            <div className="price-note">forever free</div>
-            <ul className="price-feats">
+            <div className="price-desc">Everything you need to get started and build your trading identity.</div>
+            <div className="price-main" style={{ fontSize: 17, fontFamily: "inherit", fontWeight: 700 }}>
+              Always free
+            </div>
+            <ul className="price-feats" style={{ marginTop: 20 }}>
               {freeTier.map((f) => (
                 <li key={f} className="pf">
                   <div className="pf-check">✓</div>
@@ -45,16 +81,23 @@ export default function PricingSection() {
             <button className="btn-price" onClick={scrollToWaitlist}>
               Join Waitlist
             </button>
-          </div>
+          </motion.div>
 
           {/* PRO */}
-          <div className="price-card featured fu" style={{ transitionDelay: "100ms" }}>
-            <div className="price-popular">Most Popular ⭐</div>
+          <motion.div
+            className="price-card featured"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          >
+            <div className="price-popular">First 100 get this free forever ⚡</div>
             <div className="price-tier" style={{ color: "var(--accent)" }}>Pro</div>
-            <div className="price-desc">For serious traders who want unlimited access and full privacy.</div>
-            <div className="price-main" style={{ color: "var(--accent)" }}>Early Bird</div>
-            <div className="price-note">3 months free for waitlist members</div>
-            <ul className="price-feats">
+            <div className="price-desc">Unlimited everything, full privacy, and verified trader status.</div>
+            <div className="price-main" style={{ fontSize: 17, fontFamily: "inherit", fontWeight: 700, color: "var(--accent)" }}>
+              Free for the first 100
+            </div>
+            <ul className="price-feats" style={{ marginTop: 20 }}>
               {proTier.map((f) => (
                 <li key={f} className="pf">
                   <div className="pf-check">✓</div>
@@ -63,28 +106,9 @@ export default function PricingSection() {
               ))}
             </ul>
             <button className="btn-price featured" onClick={scrollToWaitlist}>
-              Get Early Access
+              Join waitlist to lock in free Pro forever →
             </button>
-          </div>
-
-          {/* ELITE */}
-          <div className="price-card fu" style={{ transitionDelay: "200ms" }}>
-            <div className="price-tier" style={{ color: "var(--purple)" }}>Elite 🔥</div>
-            <div className="price-desc">For funded traders who want maximum credibility and monetisation.</div>
-            <div className="price-main" style={{ color: "var(--purple)" }}>Early Bird</div>
-            <div className="price-note">exclusive rate for early adopters</div>
-            <ul className="price-feats">
-              {eliteTier.map((f) => (
-                <li key={f} className="pf">
-                  <div className="pf-check pur">✓</div>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <button className="btn-price" onClick={scrollToWaitlist}>
-              Join Waitlist
-            </button>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
