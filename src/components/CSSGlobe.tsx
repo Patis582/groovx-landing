@@ -1,8 +1,6 @@
 "use client";
 import { motion, MotionValue } from "framer-motion";
 
-const ACCENT = "#2DD4BF";
-
 const CITIES = [
   { name: "New York", x: "26%", y: "37%", count: "1,240" },
   { name: "London",   x: "44%", y: "29%", count: "980"   },
