@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import FeatureCards from "@/components/FeatureCards";
-import FeaturesGlobe from "@/components/FeaturesGlobe";
+import FeaturesSection from "@/components/FeaturesSection";
 import PricingSection from "@/components/PricingSection";
 import CTASection from "@/components/CTASection";
 import FadeIn from "@/components/FadeIn";
@@ -50,27 +49,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
-      <section className="section" id="features">
-        <div className="container">
-          <FadeIn><span className="section-label">Features</span></FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 700, maxWidth: 680, letterSpacing: "-0.03em" }}>
-              Everything you need.<br />Nothing you don&apos;t.
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p style={{ fontSize: 17, color: "var(--text-secondary)", maxWidth: 520, marginTop: 16, lineHeight: 1.7 }}>
-              Built specifically for prop firm and futures traders — not a generic social network.
-            </p>
-          </FadeIn>
-
-          <FeatureCards />
-        </div>
-
-        {/* Full-width globe — outside container */}
-        <FeaturesGlobe />
-      </section>
+      <FeaturesSection />
 
       <PricingSection />
 
