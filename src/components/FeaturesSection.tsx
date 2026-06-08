@@ -1,219 +1,162 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useRef, useCallback, MouseEvent } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import CSSGlobe from "./CSSGlobe";
-import FadeIn from "./FadeIn";
 
-type PanelVisual = "phone" | "phone-zoom" | "globe" | "badge";
-
-type Panel = {
-  num: string;
-  title: string;
-  desc: string;
-  badgeText?: string;
-  visual: PanelVisual;
-  src?: string;
-  cities?: { name: string; count: string }[];
-};
-
-const PANELS: Panel[] = [
-  {
-    num: "01",
-    title: "Trade Cards",
-    desc: "Not just text posts. Structured trade data with instrument, entry, exit, SL/TP, RR ratio and chart screenshot. Every trade tells the full story.",
-    badgeText: "Not just text posts",
-    visual: "phone",
-    src: "/feed.PNG",
-  },
-  {
-    num: "02",
-    title: "Verified Trades",
-    desc: "Connect your MyFXBook account and every imported trade gets a verification badge. No more fake results.",
-    badgeText: "✓ MyFXBook verified",
-    visual: "phone-zoom",
-    src: "/tradecard_detail.PNG",
-  },
-  {
-    num: "03",
-    title: "Traders Map",
-    desc: "Discover traders near you on an interactive globe. See who's trading in your city. Ghost Mode keeps you invisible if you prefer.",
-    visual: "globe",
-    cities: [
-      { name: "New York", count: "1,240" },
-      { name: "London",   count: "980"   },
-      { name: "Tokyo",    count: "760"   },
-      { name: "Dubai",    count: "590"   },
-      { name: "Sydney",   count: "420"   },
-      { name: "Prague",   count: "340"   },
-    ],
-  },
-  {
-    num: "04",
-    title: "Funded Trader Badge",
-    desc: "Upload your prop firm certificate and payout proof. We verify it manually. Your profile shows the world you're the real deal.",
-    badgeText: "Manually verified",
-    visual: "badge",
-  },
-  {
-    num: "05",
-    title: "Communities",
-    desc: "Create or join trading communities. Public or private. Built-in chat, bias polls and moderator roles.",
-    badgeText: "Public & private",
-    visual: "phone",
-    src: "/community.PNG",
-  },
-  {
-    num: "06",
-    title: "Profile Stats",
-    desc: "Your trading track record on your profile. Average R, profit factor, trade count. Stats that actually mean something.",
-    badgeText: "Real track record",
-    visual: "phone",
-    src: "/prifle.PNG",
-  },
+const CITIES = [
+  { name: "New York", count: "1,240" },
+  { name: "London",   count: "980"   },
+  { name: "Tokyo",    count: "760"   },
+  { name: "Dubai",    count: "590"   },
+  { name: "Sydney",   count: "420"   },
+  { name: "Prague",   count: "340"   },
 ];
+const FIRMS = ["FTMO", "MFF", "Apex", "E8"];
 
-const TRANSITION = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
-  exit:    { opacity: 0, y: -20, transition: { duration: 0.28 } },
-};
-
-function PhoneVisual({ src, zoom }: { src: string; zoom?: boolean }) {
+function BentoCard({ children, className = "", delay = 0 }: {
+  children: React.ReactNode; className?: string; delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const onMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  }, []);
   return (
-    <div className={`feat-panel-phone ${zoom ? "feat-panel-phone--zoom" : ""}`}>
-      <Image src={src} alt="" fill sizes="160px" style={{ objectFit: "cover", objectPosition: zoom ? "center" : "top" }} />
-    </div>
+    <motion.div ref={ref} className={`bc ${className}`} onMouseMove={onMove}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay }}>
+      {children}
+    </motion.div>
   );
 }
 
-function BadgeVisual() {
+function Phone({ src, zoom = false }: { src: string; zoom?: boolean }) {
   return (
-    <div className="feat-panel-badge-visual">
-      <div className="feat-panel-badge-circle">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="8" r="7"/>
-          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-        </svg>
+    <div className="bento-phone">
+      <div className="bento-phone-bar"><div className="bento-phone-pill" /></div>
+      <div className="bento-phone-screen">
+        <Image src={src} alt="" fill sizes="160px"
+          style={{ objectFit: "cover", objectPosition: zoom ? "center" : "top",
+            transform: zoom ? "scale(1.2)" : "none" }} />
       </div>
-      <div className="feat-panel-badge-label">FTMO · $100k FUNDED</div>
-      <div className="feat-panel-badge-sub">Manually verified</div>
     </div>
   );
 }
 
 export default function FeaturesSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activePanel, setActivePanel] = useState(0);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Globe drift: as panel 3 (index 2) scrolls in, shift grid by 140px
-  const driftX = useTransform(scrollYProgress, [2 / 6, 3 / 6], ["0px", "-140px"]);
-
-  useEffect(() => {
-    return scrollYProgress.on("change", (v) => {
-      setActivePanel(Math.min(5, Math.floor(v * 6)));
-    });
-  }, [scrollYProgress]);
-
-  const panel = PANELS[activePanel];
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const driftX = useTransform(scrollYProgress, [0.2, 0.8], ["0px", "-90px"]);
 
   return (
-    <section className="section" id="features">
-      {/* Normal-flow header */}
+    <section className="section" id="features" ref={sectionRef}>
       <div className="container">
-        <FadeIn><span className="section-label">Features</span></FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 style={{ fontSize: "clamp(28px,4vw,48px)", fontWeight: 700, maxWidth: 680, letterSpacing: "-0.03em" }}>
-            Everything you need.<br />Nothing you don&apos;t.
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <p style={{ fontSize: 17, color: "var(--text-secondary)", maxWidth: 520, marginTop: 16, lineHeight: 1.7 }}>
-            Built specifically for prop firm and futures traders — not a generic social network.
-          </p>
-        </FadeIn>
-      </div>
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}>
+          <span className="section-label">Features</span>
+          <h2 className="bento-headline">Everything you need.<br />
+            <span className="bento-headline-em">Nothing you don&apos;t.</span></h2>
+          <p className="bento-sub">Built for prop firm and futures traders — not a generic social network.</p>
+        </motion.div>
 
-      {/* Scroll container — 600vh tall */}
-      <div className="features-scroll" ref={containerRef}>
-        {/* Sticky inner */}
-        <div className="features-sticky">
-          <div className="features-layout container">
-
-            {/* Left: timeline nav */}
-            <nav className="feat-nav" aria-label="Features navigation">
-              {PANELS.map((p, i) => (
-                <div key={p.num} className={`feat-nav-item${i === activePanel ? " feat-nav-item--active" : ""}`}>
-                  <div className="feat-nav-track">
-                    <div className="feat-nav-dot" />
-                    {i < PANELS.length - 1 && (
-                      <div className={`feat-nav-line${i < activePanel ? " feat-nav-line--filled" : ""}`} />
-                    )}
-                  </div>
-                  <div className="feat-nav-text">
-                    <span className="feat-nav-num">{p.num}</span>
-                    {p.title}
-                  </div>
-                </div>
-              ))}
-            </nav>
-
-            {/* Right: animated panel */}
-            <div className="feat-panel">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePanel}
-                  className="feat-panel-inner"
-                  initial={TRANSITION.initial}
-                  animate={TRANSITION.animate}
-                  exit={TRANSITION.exit}
-                >
-                  {/* Visual */}
-                  <div className="feat-panel-visual">
-                    {panel.visual === "phone" && panel.src && (
-                      <PhoneVisual src={panel.src} />
-                    )}
-                    {panel.visual === "phone-zoom" && panel.src && (
-                      <PhoneVisual src={panel.src} zoom />
-                    )}
-                    {panel.visual === "globe" && (
-                      <CSSGlobe driftX={driftX} />
-                    )}
-                    {panel.visual === "badge" && <BadgeVisual />}
-                  </div>
-
-                  {/* Text */}
-                  <div className="feat-panel-text">
-                    <span className="feat-panel-num">{panel.num} / 06</span>
-                    <h3 className="feat-panel-title">{panel.title}</h3>
-                    <p className="feat-panel-desc">{panel.desc}</p>
-                    {panel.badgeText && (
-                      <div className="feat-panel-tag">
-                        <span className="feat-panel-tag-dot" />
-                        {panel.badgeText}
-                      </div>
-                    )}
-                    {panel.cities && (
-                      <div className="feat-panel-chips">
-                        {panel.cities.map(({ name, count }) => (
-                          <div key={name} className="feat-panel-chip">
-                            <span className="feat-panel-chip-dot" />
-                            {name} · {count}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+        {/* Grid */}
+        <div className="bento-grid">
+          {/* 01 Trade Cards */}
+          <BentoCard className="bc-trade" delay={0}>
+            <div className="bc-inner">
+              <div className="bc-copy">
+                <span className="bc-num">01</span>
+                <h3 className="bc-title">Trade Cards</h3>
+                <p className="bc-desc">Not just screenshots. Structured data with instrument, entry, exit, SL/TP and RR ratio — every trade tells the full story.</p>
+                <div className="bc-tag"><span className="bc-tag-dot" />Not just text posts</div>
+              </div>
+              <div className="bc-phone-wrap"><Phone src="/feed.PNG" /></div>
             </div>
+          </BentoCard>
 
-          </div>
+          {/* 02 Verified */}
+          <BentoCard className="bc-verified" delay={0.08}>
+            <div className="bc-inner bc-inner--col">
+              <div className="bc-copy">
+                <span className="bc-num">02</span>
+                <h3 className="bc-title">Verified Trades</h3>
+                <p className="bc-desc">MyFXBook sync gives every imported trade a verification badge. No more fake results.</p>
+                <div className="bc-verify-badge">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  MyFXBook verified
+                </div>
+              </div>
+              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/tradecard_detail.PNG" zoom /></div>
+            </div>
+          </BentoCard>
+
+          {/* 03 Traders Map — full width */}
+          <BentoCard className="bc-map" delay={0.14}>
+            <div className="bc-map-inner">
+              <div className="bc-map-copy">
+                <div className="bc-live"><span className="bc-live-dot" />LIVE</div>
+                <span className="bc-num">03</span>
+                <h3 className="bc-title bc-title--xl">Traders Map</h3>
+                <p className="bc-desc bc-desc--wide">Discover traders near you on an interactive globe. See who&apos;s trading in your city. Ghost Mode keeps you invisible.</p>
+                <div className="bc-city-chips">
+                  {CITIES.map(({ name, count }) => (
+                    <div key={name} className="bc-city-chip"><span className="bc-city-dot" />{name}&nbsp;·&nbsp;{count}</div>
+                  ))}
+                </div>
+              </div>
+              <div className="bc-globe-area">
+                <div className="bc-globe-halo" />
+                <CSSGlobe driftX={driftX} />
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* 04 Funded Badge */}
+          <BentoCard className="bc-funded" delay={0.06}>
+            <div className="bc-inner bc-inner--col">
+              <span className="bc-num">04</span>
+              <div className="bc-trophy">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2DD4BF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                </svg>
+              </div>
+              <div className="bc-copy">
+                <h3 className="bc-title">Funded Trader Badge</h3>
+                <p className="bc-desc">Upload your prop firm certificate and payout proof. We verify it manually.</p>
+              </div>
+              <div className="bc-firms">{FIRMS.map((f) => <span key={f} className="bc-firm">{f}</span>)}</div>
+            </div>
+          </BentoCard>
+
+          {/* 05 Communities */}
+          <BentoCard className="bc-communities" delay={0.12}>
+            <div className="bc-inner bc-inner--col">
+              <div className="bc-copy">
+                <span className="bc-num">05</span>
+                <h3 className="bc-title">Communities</h3>
+                <p className="bc-desc">Public or private trading communities with built-in chat, bias polls and moderator roles.</p>
+                <div className="bc-tag"><span className="bc-tag-dot" />Public &amp; private</div>
+              </div>
+              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/community.PNG" /></div>
+            </div>
+          </BentoCard>
+
+          {/* 06 Profile Stats */}
+          <BentoCard className="bc-stats" delay={0.18}>
+            <div className="bc-inner bc-inner--col">
+              <div className="bc-copy">
+                <span className="bc-num">06</span>
+                <h3 className="bc-title">Profile Stats</h3>
+                <p className="bc-desc">Average R, profit factor, trade count — your real track record visible on your profile.</p>
+              </div>
+              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/prifle.PNG" /></div>
+            </div>
+          </BentoCard>
         </div>
       </div>
     </section>
