@@ -942,24 +942,24 @@ h1,h2,h3,h4 {
 .bc:hover { border-color: rgba(45,212,191,0.22); }
 .bc:hover::before { opacity: 1; }
 
-/* Grid placement */
-.bc-trade      { grid-column: span 4; min-height: 280px; }
-.bc-verified   { grid-column: span 2; min-height: 280px; }
-.bc-map        { grid-column: span 6; min-height: 300px; }
-.bc-funded     { grid-column: span 2; min-height: 260px; }
-.bc-communities{ grid-column: span 2; min-height: 260px; }
-.bc-stats      { grid-column: span 2; min-height: 260px; }
+/* Grid placement — min-heights accommodate 200×414 PhoneFrame */
+.bc-trade      { grid-column: span 4; min-height: 490px; }
+.bc-verified   { grid-column: span 2; min-height: 490px; }
+.bc-map        { grid-column: span 6; min-height: 490px; }
+.bc-funded     { grid-column: span 2; min-height: 300px; }
+.bc-communities{ grid-column: span 2; }
+.bc-stats      { grid-column: span 2; }
 
 /* Inner layouts */
 .bc-inner { display: flex; align-items: center; gap: 24px; flex: 1; padding: 28px; position: relative; z-index: 1; }
 .bc-inner--col { flex-direction: column; align-items: flex-start; justify-content: space-between; }
 .bc-copy { flex: 1; }
 
-.bc-num { display: block; font-family: var(--font-space-mono),monospace; font-size: 10px; color: var(--text-tertiary); letter-spacing: .1em; margin-bottom: 10px; }
-.bc-title { font-family: var(--font-manrope),sans-serif; font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; letter-spacing: -0.02em; }
-.bc-title--xl { font-size: clamp(22px,2.5vw,28px); }
-.bc-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; max-width: 300px; }
-.bc-desc--wide { max-width: 360px; }
+.bc-num { display: block; font-family: var(--font-space-mono),monospace; font-size: 12px; color: var(--text-tertiary); letter-spacing: .1em; margin-bottom: 12px; }
+.bc-title { font-family: var(--font-manrope),sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.02em; }
+.bc-title--xl { font-size: clamp(26px,3vw,34px); }
+.bc-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 300px; }
+.bc-desc--wide { max-width: 400px; }
 
 /* Tag pill */
 .bc-tag { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(45,212,191,0.08); border: 1px solid rgba(45,212,191,0.2); border-radius: 20px; padding: 4px 12px; }
@@ -968,13 +968,8 @@ h1,h2,h3,h4 {
 /* Verified badge */
 .bc-verify-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.25); border-radius: 20px; padding: 4px 12px; }
 
-/* Phone mockup */
+/* Phone wrap — PhoneFrame handles its own sizing via inline styles */
 .bc-phone-wrap { flex-shrink: 0; }
-.bc-phone-wrap--sm .bento-phone { width: 120px; height: 240px; }
-.bento-phone { width: 150px; height: 300px; border-radius: 20px; border: 1.5px solid rgba(255,255,255,0.1); background: var(--bg-card); overflow: hidden; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
-.bento-phone-bar { height: 20px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-bottom: 1px solid var(--border); }
-.bento-phone-pill { width: 40px; height: 5px; background: rgba(255,255,255,0.1); border-radius: 99px; }
-.bento-phone-screen { flex: 1; position: relative; overflow: hidden; }
 
 /* Map card */
 .bc-map { background: linear-gradient(135deg, #161b22 0%, #0f1a22 100%); border-color: rgba(45,212,191,0.12); animation: map-breathe 4s ease-in-out infinite alternate; }
@@ -982,8 +977,8 @@ h1,h2,h3,h4 {
   from { border-color: rgba(45,212,191,0.08); box-shadow: none; }
   to   { border-color: rgba(45,212,191,0.22); box-shadow: 0 0 40px rgba(45,212,191,0.06); }
 }
-.bc-map-inner { display: flex; align-items: center; justify-content: space-between; flex: 1; padding: 36px 40px; position: relative; z-index: 1; }
-.bc-map-copy { flex: 1; max-width: 480px; }
+.bc-map-inner { display: flex; align-items: center; justify-content: space-between; flex: 1; padding: 44px 48px; position: relative; z-index: 1; gap: 32px; }
+.bc-map-copy { flex: 1; max-width: 500px; }
 
 /* Live badge */
 .bc-live { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-space-mono),monospace; font-size: 10px; font-weight: 700; color: #22c55e; letter-spacing: .1em; margin-bottom: 10px; }
@@ -994,10 +989,9 @@ h1,h2,h3,h4 {
 .bc-city-chip { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-space-mono),monospace; font-size: 9px; font-weight: 600; color: var(--accent); background: rgba(45,212,191,0.07); border: 1px solid rgba(45,212,191,0.18); border-radius: 20px; padding: 2px 8px; }
 .bc-city-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
-/* Globe area */
-.bc-globe-area { position: relative; flex-shrink: 0; }
-.bc-globe-halo { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(45,212,191,0.1) 0%, transparent 65%); pointer-events: none; }
-.bc-globe-area .css-globe { width: 260px; height: 260px; }
+/* Map card visual — phone in front, globe ambient behind */
+.bc-map-visual { position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 320px; }
+.bc-globe-halo { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
 
 /* Funded */
 .bc-trophy { width: 56px; height: 56px; border-radius: 16px; background: rgba(45,212,191,0.07); border: 1px solid rgba(45,212,191,0.18); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
@@ -1010,9 +1004,11 @@ h1,h2,h3,h4 {
   .bc-verified   { grid-column: span 3; }
   .bc-funded,.bc-communities,.bc-stats { grid-column: span 3; }
 }
+@media (max-width: 768px) {
+  .bc-map-inner { flex-direction: column; padding: 32px 28px; }
+  .bc-map-visual { width: 200px; }
+}
 @media (max-width: 600px) {
   .bento-grid { grid-template-columns: 1fr; }
   .bc-trade,.bc-verified,.bc-map,.bc-funded,.bc-communities,.bc-stats { grid-column: span 1; }
-  .bc-map-inner { flex-direction: column; gap: 28px; }
-  .bc-globe-area .css-globe { width: 180px; height: 180px; }
 }

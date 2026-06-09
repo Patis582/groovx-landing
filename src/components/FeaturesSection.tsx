@@ -1,8 +1,7 @@
 "use client";
 import { useRef, useCallback, MouseEvent } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
-import CSSGlobe from "./CSSGlobe";
+import { motion, useInView } from "framer-motion";
+import PhoneFrame from "./PhoneFrame";
 
 const CITIES = [
   { name: "New York", count: "1,240" },
@@ -13,6 +12,10 @@ const CITIES = [
   { name: "Prague",   count: "340"   },
 ];
 const FIRMS = ["FTMO", "MFF", "Apex", "E8"];
+
+// 200×414 matches iPhone 1125:2436 ratio with PhoneFrame frame padding — no cropping
+const PHONE_W = 200;
+const PHONE_H = 414;
 
 function BentoCard({ children, className = "", delay = 0 }: {
   children: React.ReactNode; className?: string; delay?: number;
@@ -34,28 +37,10 @@ function BentoCard({ children, className = "", delay = 0 }: {
   );
 }
 
-function Phone({ src, zoom = false }: { src: string; zoom?: boolean }) {
-  return (
-    <div className="bento-phone">
-      <div className="bento-phone-bar"><div className="bento-phone-pill" /></div>
-      <div className="bento-phone-screen">
-        <Image src={src} alt="" fill sizes="160px"
-          style={{ objectFit: "cover", objectPosition: zoom ? "center" : "top",
-            transform: zoom ? "scale(1.2)" : "none" }} />
-      </div>
-    </div>
-  );
-}
-
 export default function FeaturesSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const driftX = useTransform(scrollYProgress, [0.2, 0.8], ["0px", "-90px"]);
-
   return (
-    <section className="section" id="features" ref={sectionRef}>
+    <section className="section" id="features">
       <div className="container">
-        {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}>
           <span className="section-label">Features</span>
@@ -64,7 +49,6 @@ export default function FeaturesSection() {
           <p className="bento-sub">Built for prop firm and futures traders — not a generic social network.</p>
         </motion.div>
 
-        {/* Grid */}
         <div className="bento-grid">
           {/* 01 Trade Cards */}
           <BentoCard className="bc-trade" delay={0}>
@@ -75,7 +59,9 @@ export default function FeaturesSection() {
                 <p className="bc-desc">Not just screenshots. Structured data with instrument, entry, exit, SL/TP and RR ratio — every trade tells the full story.</p>
                 <div className="bc-tag"><span className="bc-tag-dot" />Not just text posts</div>
               </div>
-              <div className="bc-phone-wrap"><Phone src="/feed.PNG" /></div>
+              <div className="bc-phone-wrap">
+                <PhoneFrame src="/feed.PNG" alt="Trade feed" width={PHONE_W} height={PHONE_H} />
+              </div>
             </div>
           </BentoCard>
 
@@ -91,11 +77,13 @@ export default function FeaturesSection() {
                   MyFXBook verified
                 </div>
               </div>
-              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/tradecard_detail.PNG" zoom /></div>
+              <div className="bc-phone-wrap" style={{ alignSelf: "center" }}>
+                <PhoneFrame src="/tradecard_detail.PNG" alt="Trade detail" width={PHONE_W} height={PHONE_H} />
+              </div>
             </div>
           </BentoCard>
 
-          {/* 03 Traders Map — full width */}
+          {/* 03 Traders Map */}
           <BentoCard className="bc-map" delay={0.14}>
             <div className="bc-map-inner">
               <div className="bc-map-copy">
@@ -109,9 +97,9 @@ export default function FeaturesSection() {
                   ))}
                 </div>
               </div>
-              <div className="bc-globe-area">
+              <div className="bc-map-visual">
                 <div className="bc-globe-halo" />
-                <CSSGlobe driftX={driftX} />
+                <PhoneFrame src="/map.PNG" alt="Traders Map" width={PHONE_W} height={PHONE_H} />
               </div>
             </div>
           </BentoCard>
@@ -142,7 +130,9 @@ export default function FeaturesSection() {
                 <p className="bc-desc">Public or private trading communities with built-in chat, bias polls and moderator roles.</p>
                 <div className="bc-tag"><span className="bc-tag-dot" />Public &amp; private</div>
               </div>
-              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/community.PNG" /></div>
+              <div className="bc-phone-wrap" style={{ alignSelf: "center" }}>
+                <PhoneFrame src="/community.PNG" alt="Communities" width={PHONE_W} height={PHONE_H} />
+              </div>
             </div>
           </BentoCard>
 
@@ -154,7 +144,9 @@ export default function FeaturesSection() {
                 <h3 className="bc-title">Profile Stats</h3>
                 <p className="bc-desc">Average R, profit factor, trade count — your real track record visible on your profile.</p>
               </div>
-              <div className="bc-phone-wrap bc-phone-wrap--sm"><Phone src="/prifle.PNG" /></div>
+              <div className="bc-phone-wrap" style={{ alignSelf: "center" }}>
+                <PhoneFrame src="/prifle.PNG" alt="Profile stats" width={PHONE_W} height={PHONE_H} />
+              </div>
             </div>
           </BentoCard>
         </div>
