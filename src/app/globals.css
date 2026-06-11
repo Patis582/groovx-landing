@@ -799,6 +799,8 @@ h1,h2,h3,h4 {
   .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
   .pricing-grid-2 { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
   .testi-grid { grid-template-columns: 1fr; }
+  /* Spotlight */
+  .spot-inner { grid-template-columns: 1fr; gap: 40px; }
   /* CTA */
   .cta-box { padding: 48px 28px; }
   .cta-form { flex-direction: column; }
@@ -817,7 +819,7 @@ h1,h2,h3,h4 {
   .hero { padding-top: 80px; padding-bottom: 56px; }
   .hero-h1 { font-size: clamp(28px, 8vw, 42px); }
   /* Problem */
-  .prob-row { padding-left: 16px; }
+  .prob-row { padding-left: 16px; grid-template-columns: 1fr; }
   .prob-row-num { display: none; }
   /* Bento */
   .bento-grid { gap: 8px; }
