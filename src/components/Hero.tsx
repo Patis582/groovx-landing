@@ -104,6 +104,21 @@ export default function Hero() {
         }
       }
 
+      // straight crosshair at exact cursor position
+      if (cx > 0) {
+        ctx.save();
+        ctx.strokeStyle = "rgba(45,212,191,0.5)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 6]);
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+        ctx.setLineDash([]);
+        // dot at intersection
+        ctx.fillStyle = "rgba(45,212,191,0.9)";
+        ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+
       rafRef.current = requestAnimationFrame(frame);
     }
     rafRef.current = requestAnimationFrame(frame);
