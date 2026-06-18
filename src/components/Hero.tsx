@@ -1,20 +1,26 @@
 "use client";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import FadeIn from "./FadeIn";
 import PhoneMockup from "./PhoneMockup";
 import WaitlistForm from "./WaitlistForm";
 
 export default function Hero() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
   const onMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    if (!glowRef.current) return;
     const r = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    const mask = `radial-gradient(circle 300px at ${x}px ${y}px, black, transparent)`;
+    glowRef.current.style.maskImage = mask;
+    glowRef.current.style.webkitMaskImage = mask;
   }, []);
 
   return (
     <section className="hero" id="home" onMouseMove={onMove}>
       <div className="hero-grid" />
-      <div className="hero-grid-glow" />
+      <div className="hero-grid-glow" ref={glowRef} />
       <div className="hero-orb hero-orb-1" />
       <div className="hero-orb hero-orb-2" />
       <div className="container">
