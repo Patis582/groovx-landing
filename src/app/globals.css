@@ -827,8 +827,10 @@ h1,h2,h3,h4 {
   .bento-headline { margin-bottom: 10px; }
   .bento-sub { font-size: 15px; margin-bottom: 24px; }
   .bc-inner { padding: 18px; gap: 14px; }
-  .bc-trade .bc-inner { flex-direction: column; align-items: center; }
-  .bc-trade .bc-copy { width: 100%; }
+  .bc-trade .bc-inner,
+  .bc-funded .bc-inner { flex-direction: column; align-items: flex-start; }
+  .bc-trade .bc-copy,
+  .bc-funded .bc-copy { width: 100%; }
   .bc-trade,.bc-verified,.bc-map,.bc-funded,.bc-communities,.bc-stats { grid-column: span 1; }
   .bc-map-inner { padding: 24px 20px; }
   .bc-map-visual { width: auto; }
