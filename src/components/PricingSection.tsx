@@ -7,7 +7,6 @@ function scrollToWaitlist() {
 
 const freeTier = [
   "10 trade cards / month",
-  "5 direct messages / day",
   "Join public communities",
   "Basic profile stats",
   "Traders Map access",
@@ -18,9 +17,7 @@ const proTier = [
   "CSV & MyFXBook import",
   "Ghost Mode (private browsing)",
   "Create & manage communities",
-  "Advanced analytics & equity curve",
   "API-verified funded badge",
-  "Priority support",
 ];
 
 export default function PricingSection() {
