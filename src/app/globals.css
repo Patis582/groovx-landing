@@ -994,7 +994,7 @@ h1,h2,h3,h4 {
 .bc-inner--center { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; }
 .bc-copy { flex: 1; }
 
-.bc-num { display: block; font-family: var(--font-space-mono),monospace; font-size: 12px; color: var(--text-tertiary); letter-spacing: .1em; margin-bottom: 12px; }
+.bc-num { display: block; font-family: var(--font-space-mono),monospace; font-size: 42px; font-weight: 700; color: rgba(240,246,252,.05); letter-spacing: -.04em; line-height: 1; margin-bottom: 14px; user-select: none; }
 .bc-title { font-family: var(--font-manrope),sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.02em; }
 .bc-title--xl { font-size: clamp(26px,3vw,34px); }
 .bc-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; max-width: 300px; }
