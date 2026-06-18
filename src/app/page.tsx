@@ -30,9 +30,9 @@ export default function Home() {
           </FadeIn>
           <div className="prob-rows">
             {[
-              { num: "01", tag: "CREDIBILITY CRISIS", title: "Fake Screenshots", text: "Anyone can edit a P&L screenshot. Real results need verification — not just a post.", d: 0.1 },
-              { num: "02", tag: "GHOST COMMUNITIES",  title: "Empty Communities", text: "Discord servers with 10k members, 3 active people, and zero signal. Trading deserves better.", d: 0.2 },
-              { num: "03", tag: "ZERO LOCAL SIGNAL",  title: "No Local Network",  text: "Thousands of traders in your city with no way to find each other. The map has been empty — until now.", d: 0.3 },
+              { num: "01", tag: "FAKE RESULTS", title: "Fake Trades", text: "Anyone can post P&L screenshots — cropped, edited, or straight from a demo account. Without verification, there's no way to know who's real and who's performing.", d: 0.1 },
+              { num: "02", tag: "NO TRADING LAYER", title: "No Trading Layer", text: "Entry, exit, SL/TP, RR ratio — a trade carries data that matters. But everywhere you post it, that data disappears into a screenshot with no structure and no context.", d: 0.2 },
+              { num: "03", tag: "ZERO LOCAL SIGNAL", title: "No Local Network", text: "Thousands of traders in your city with no way to find each other. The map has been empty — until now.", d: 0.3 },
             ].map((c) => (
               <FadeIn key={c.title} delay={c.d}>
                 <div className="prob-row">
@@ -71,7 +71,7 @@ export default function Home() {
               <a href="#" className="footer-link">Terms of Service</a>
               <a href="#" className="footer-link">Contact</a>
             </div>
-            <a href="#" className="footer-x">𝕏</a>
+            <a href="https://x.com/trademates_" target="_blank" className="footer-x">𝕏</a>
           </div>
         </div>
       </footer>

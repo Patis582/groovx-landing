@@ -794,7 +794,8 @@ h1,h2,h3,h4 {
   .bento-sub { margin-bottom: 36px; }
   .bc-trade   { grid-column: span 3; }
   .bc-verified{ grid-column: span 3; }
-  .bc-funded,.bc-communities,.bc-stats { grid-column: span 3; }
+  .bc-trade .bc-inner { flex-direction: column; align-items: center; }
+  .bc-trade .bc-copy { width: 100%; }
   /* Pricing */
   .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
   .pricing-grid-2 { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
@@ -826,7 +827,8 @@ h1,h2,h3,h4 {
   .bento-headline { margin-bottom: 10px; }
   .bento-sub { font-size: 15px; margin-bottom: 24px; }
   .bc-inner { padding: 18px; gap: 14px; }
-  .bc-trade .bc-inner { flex-direction: column; align-items: flex-start; }
+  .bc-trade .bc-inner { flex-direction: column; align-items: center; }
+  .bc-trade .bc-copy { width: 100%; }
   .bc-trade,.bc-verified,.bc-map,.bc-funded,.bc-communities,.bc-stats { grid-column: span 1; }
   .bc-map-inner { padding: 24px 20px; }
   .bc-map-visual { width: auto; }
@@ -1006,7 +1008,7 @@ h1,h2,h3,h4 {
 .bc-verify-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.25); border-radius: 20px; padding: 4px 12px; }
 
 /* Phone wrap — PhoneFrame handles its own sizing via inline styles */
-.bc-phone-wrap { flex-shrink: 0; }
+.bc-phone-wrap { flex-shrink: 0; align-self: center; }
 
 /* Map card */
 .bc-map { background: linear-gradient(135deg, #161b22 0%, #0f1a22 100%); border-color: rgba(45,212,191,0.12); animation: map-breathe 4s ease-in-out infinite alternate; }
@@ -1039,7 +1041,8 @@ h1,h2,h3,h4 {
 @media (max-width: 900px) {
   .bc-trade   { grid-column: span 3; }
   .bc-verified{ grid-column: span 3; }
-  .bc-funded,.bc-communities,.bc-stats { grid-column: span 3; }
+  .bc-trade .bc-inner { flex-direction: column; align-items: center; }
+  .bc-trade .bc-copy { width: 100%; }
 }
 @media (max-width: 768px) {
   .bc-map-inner { flex-direction: column; padding: 32px 28px; }
