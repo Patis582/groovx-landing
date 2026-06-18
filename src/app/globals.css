@@ -98,10 +98,18 @@ h1,h2,h3,h4 {
 }
 .hero-grid {
   position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(rgba(240,246,252,.02) 1px,transparent 1px),
-                    linear-gradient(90deg,rgba(240,246,252,.02) 1px,transparent 1px);
+  background-image: linear-gradient(rgba(240,246,252,.05) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(240,246,252,.05) 1px,transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black, transparent);
+}
+.hero-grid-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(45,212,191,.22) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(45,212,191,.22) 1px,transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle 280px at var(--mx,-9999px) var(--my,-9999px), black 0%, transparent 100%);
+  transition: mask-position 0.05s;
 }
 .hero-orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
 .hero-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(45,212,191,.13) 0%, transparent 70%); top: -80px; right: -80px; }

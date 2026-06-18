@@ -1,11 +1,20 @@
+"use client";
+import { useCallback } from "react";
 import FadeIn from "./FadeIn";
 import PhoneMockup from "./PhoneMockup";
 import WaitlistForm from "./WaitlistForm";
 
 export default function Hero() {
+  const onMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  }, []);
+
   return (
-    <section className="hero" id="home">
+    <section className="hero" id="home" onMouseMove={onMove}>
       <div className="hero-grid" />
+      <div className="hero-grid-glow" />
       <div className="hero-orb hero-orb-1" />
       <div className="hero-orb hero-orb-2" />
       <div className="container">
