@@ -84,39 +84,33 @@ export default function Hero() {
         ctx.fillRect(0, 0, W, H);
       }
 
+      const crossX = cx > 0 ? Math.round(cx / STEP) * STEP : -1;
+      const crossY = cy > 0 ? Math.round(cy / STEP) * STEP : -1;
+
       for (let x = 0; x <= W + STEP; x += STEP) {
+        const isCross = x === crossX;
         const pts = [];
-        for (let y = -STEP; y <= H + STEP; y += SAMPLE) pts.push(displace(x, y, cx, cy));
+        for (let y = -STEP; y <= H + STEP; y += SAMPLE)
+          pts.push(isCross ? { x, y } : displace(x, y, cx, cy));
         drawLine(pts, "rgba(240,246,252,0.05)");
         if (cx > 0) {
           const d = Math.abs(x - cx);
-          if (d < RADIUS + 80) drawLine(pts, `rgba(45,212,191,${(0.22 * smoothstep(1 - d / (RADIUS + 80))).toFixed(3)})`);
+          const alpha = isCross ? 0.45 : (d < RADIUS + 80 ? 0.22 * smoothstep(1 - d / (RADIUS + 80)) : 0);
+          if (alpha > 0) drawLine(pts, `rgba(45,212,191,${alpha.toFixed(3)})`);
         }
       }
 
       for (let y = 0; y <= H + STEP; y += STEP) {
+        const isCross = y === crossY;
         const pts = [];
-        for (let x = -STEP; x <= W + STEP; x += SAMPLE) pts.push(displace(x, y, cx, cy));
+        for (let x = -STEP; x <= W + STEP; x += SAMPLE)
+          pts.push(isCross ? { x, y } : displace(x, y, cx, cy));
         drawLine(pts, "rgba(240,246,252,0.05)");
         if (cy > 0) {
           const d = Math.abs(y - cy);
-          if (d < RADIUS + 80) drawLine(pts, `rgba(45,212,191,${(0.22 * smoothstep(1 - d / (RADIUS + 80))).toFixed(3)})`);
+          const alpha = isCross ? 0.45 : (d < RADIUS + 80 ? 0.22 * smoothstep(1 - d / (RADIUS + 80)) : 0);
+          if (alpha > 0) drawLine(pts, `rgba(45,212,191,${alpha.toFixed(3)})`);
         }
-      }
-
-      // straight crosshair at exact cursor position
-      if (cx > 0) {
-        ctx.save();
-        ctx.strokeStyle = "rgba(45,212,191,0.5)";
-        ctx.lineWidth = 1;
-        ctx.setLineDash([4, 6]);
-        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
-        ctx.setLineDash([]);
-        // dot at intersection
-        ctx.fillStyle = "rgba(45,212,191,0.9)";
-        ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2); ctx.fill();
-        ctx.restore();
       }
 
       rafRef.current = requestAnimationFrame(frame);
