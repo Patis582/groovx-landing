@@ -792,8 +792,11 @@ h1,h2,h3,h4 {
   /* Bento */
   .bc-inner { padding: 22px; }
   .bento-sub { margin-bottom: 36px; }
-  .bc-trade   { grid-column: span 3; }
-  .bc-verified{ grid-column: span 3; }
+  .bc-trade        { grid-column: span 3; }
+  .bc-verified     { grid-column: span 3; }
+  .bc-funded       { grid-column: span 3; }
+  .bc-communities  { grid-column: span 3; }
+  .bc-stats        { grid-column: span 6; }
   .bc-trade .bc-inner { flex-direction: column; align-items: center; }
   .bc-trade .bc-copy { width: 100%; }
   /* Pricing */
@@ -1040,15 +1043,6 @@ h1,h2,h3,h4 {
 .bc-firm { font-family: var(--font-space-mono),monospace; font-size: 10px; color: var(--text-tertiary); background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; }
 
 /* Mobile */
-@media (max-width: 900px) {
-  .bc-trade   { grid-column: span 3; }
-  .bc-verified{ grid-column: span 3; }
-  .bc-funded  { grid-column: span 3; }
-  .bc-communities { grid-column: span 3; }
-  .bc-stats   { grid-column: span 6; }
-  .bc-trade .bc-inner { flex-direction: column; align-items: center; }
-  .bc-trade .bc-copy { width: 100%; }
-}
 @media (max-width: 768px) {
   .bc-map-inner { flex-direction: column; padding: 32px 28px; }
   .bc-map-visual { width: 200px; }
