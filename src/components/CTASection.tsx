@@ -18,9 +18,6 @@ export default function CTASection() {
               card. No expiry. Just Pro, on us.
             </p>
             <WaitlistForm variant="cta" />
-            <div className="cta-disc" style={{ marginTop: 12 }}>
-              No spam. We&apos;ll only email you when GroovX launches.
-            </div>
           </div>
         </FadeIn>
       </div>
