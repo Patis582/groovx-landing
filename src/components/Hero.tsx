@@ -1,26 +1,124 @@
 "use client";
-import { useCallback, useRef } from "react";
+import { useRef, useEffect } from "react";
 import FadeIn from "./FadeIn";
 import PhoneMockup from "./PhoneMockup";
 import WaitlistForm from "./WaitlistForm";
 
-export default function Hero() {
-  const glowRef = useRef<HTMLDivElement>(null);
+const STEP = 56;
+const STRENGTH = 44;
+const RADIUS = 180;
+const SAMPLE = 3;
 
-  const onMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (!glowRef.current) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    const mask = `radial-gradient(circle 300px at ${x}px ${y}px, black, transparent)`;
-    glowRef.current.style.maskImage = mask;
-    glowRef.current.style.webkitMaskImage = mask;
+function smoothstep(t: number) {
+  t = Math.max(0, Math.min(1, t));
+  return t * t * (3 - 2 * t);
+}
+
+export default function Hero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ tx: -9999, ty: -9999, cx: -9999, cy: -9999 });
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const section = canvas.parentElement!;
+
+    function resize() {
+      canvas!.width = section.offsetWidth;
+      canvas!.height = section.offsetHeight;
+    }
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(section);
+
+    function onMouseMove(e: MouseEvent) {
+      const r = section.getBoundingClientRect();
+      mouse.current.tx = e.clientX - r.left;
+      mouse.current.ty = e.clientY - r.top;
+    }
+    function onMouseLeave() {
+      mouse.current.tx = -9999;
+      mouse.current.ty = -9999;
+    }
+    section.addEventListener("mousemove", onMouseMove);
+    section.addEventListener("mouseleave", onMouseLeave);
+
+    function displace(px: number, py: number, cx: number, cy: number) {
+      const dx = px - cx, dy = py - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist >= RADIUS || dist < 0.5) return { x: px, y: py };
+      const force = STRENGTH * smoothstep(1 - dist / RADIUS);
+      return { x: px + (dx / dist) * force, y: py + (dy / dist) * force };
+    }
+
+    function drawLine(pts: { x: number; y: number }[], color: string) {
+      if (pts.length < 2) return;
+      ctx!.beginPath();
+      ctx!.strokeStyle = color;
+      ctx!.lineWidth = 1;
+      ctx!.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) {
+        const prev = pts[i - 1], curr = pts[i];
+        ctx!.quadraticCurveTo(prev.x, prev.y, (prev.x + curr.x) / 2, (prev.y + curr.y) / 2);
+      }
+      ctx!.stroke();
+    }
+
+    function frame() {
+      const m = mouse.current;
+      m.cx += ((m.tx - m.cx) * (m.cx < -100 ? 1 : 0.1));
+      m.cy += ((m.ty - m.cy) * (m.cy < -100 ? 1 : 0.1));
+      const { cx, cy } = m;
+      const W = canvas!.width, H = canvas!.height;
+
+      ctx!.clearRect(0, 0, W, H);
+
+      if (cx > 0) {
+        const g = ctx!.createRadialGradient(cx, cy, 0, cx, cy, 280);
+        g.addColorStop(0, "rgba(45,212,191,0.07)");
+        g.addColorStop(1, "transparent");
+        ctx!.fillStyle = g;
+        ctx!.fillRect(0, 0, W, H);
+      }
+
+      for (let x = 0; x <= W + STEP; x += STEP) {
+        const pts = [];
+        for (let y = -STEP; y <= H + STEP; y += SAMPLE) pts.push(displace(x, y, cx, cy));
+        drawLine(pts, "rgba(240,246,252,0.05)");
+        if (cx > 0) {
+          const d = Math.abs(x - cx);
+          if (d < RADIUS + 80) drawLine(pts, `rgba(45,212,191,${(0.22 * smoothstep(1 - d / (RADIUS + 80))).toFixed(3)})`);
+        }
+      }
+
+      for (let y = 0; y <= H + STEP; y += STEP) {
+        const pts = [];
+        for (let x = -STEP; x <= W + STEP; x += SAMPLE) pts.push(displace(x, y, cx, cy));
+        drawLine(pts, "rgba(240,246,252,0.05)");
+        if (cy > 0) {
+          const d = Math.abs(y - cy);
+          if (d < RADIUS + 80) drawLine(pts, `rgba(45,212,191,${(0.22 * smoothstep(1 - d / (RADIUS + 80))).toFixed(3)})`);
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(frame);
+    }
+    rafRef.current = requestAnimationFrame(frame);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      ro.disconnect();
+      section.removeEventListener("mousemove", onMouseMove);
+      section.removeEventListener("mouseleave", onMouseLeave);
+    };
   }, []);
 
   return (
-    <section className="hero" id="home" onMouseMove={onMove}>
-      <div className="hero-grid" />
-      <div className="hero-grid-glow" ref={glowRef} />
+    <section className="hero" id="home">
+      <canvas ref={canvasRef} className="hero-canvas" />
       <div className="hero-orb hero-orb-1" />
       <div className="hero-orb hero-orb-2" />
       <div className="container">
