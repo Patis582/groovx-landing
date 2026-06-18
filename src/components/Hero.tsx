@@ -15,27 +15,27 @@ function smoothstep(t: number) {
 }
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouse = useRef({ tx: -9999, ty: -9999, cx: -9999, cy: -9999 });
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const section = canvas.parentElement!;
+    const section = sectionRef.current;
+    if (!canvas || !section) return;
+    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
     function resize() {
-      canvas!.width = section.offsetWidth;
-      canvas!.height = section.offsetHeight;
+      canvas!.width = section!.offsetWidth;
+      canvas!.height = section!.offsetHeight;
     }
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(section);
 
     function onMouseMove(e: MouseEvent) {
-      const r = section.getBoundingClientRect();
+      const r = section!.getBoundingClientRect();
       mouse.current.tx = e.clientX - r.left;
       mouse.current.ty = e.clientY - r.top;
     }
@@ -56,32 +56,32 @@ export default function Hero() {
 
     function drawLine(pts: { x: number; y: number }[], color: string) {
       if (pts.length < 2) return;
-      ctx!.beginPath();
-      ctx!.strokeStyle = color;
-      ctx!.lineWidth = 1;
-      ctx!.moveTo(pts[0].x, pts[0].y);
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.moveTo(pts[0].x, pts[0].y);
       for (let i = 1; i < pts.length; i++) {
         const prev = pts[i - 1], curr = pts[i];
-        ctx!.quadraticCurveTo(prev.x, prev.y, (prev.x + curr.x) / 2, (prev.y + curr.y) / 2);
+        ctx.quadraticCurveTo(prev.x, prev.y, (prev.x + curr.x) / 2, (prev.y + curr.y) / 2);
       }
-      ctx!.stroke();
+      ctx.stroke();
     }
 
     function frame() {
       const m = mouse.current;
-      m.cx += ((m.tx - m.cx) * (m.cx < -100 ? 1 : 0.1));
-      m.cy += ((m.ty - m.cy) * (m.cy < -100 ? 1 : 0.1));
+      m.cx += (m.tx - m.cx) * (m.cx < -100 ? 1 : 0.1);
+      m.cy += (m.ty - m.cy) * (m.cy < -100 ? 1 : 0.1);
       const { cx, cy } = m;
       const W = canvas!.width, H = canvas!.height;
 
-      ctx!.clearRect(0, 0, W, H);
+      ctx.clearRect(0, 0, W, H);
 
       if (cx > 0) {
-        const g = ctx!.createRadialGradient(cx, cy, 0, cx, cy, 280);
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 280);
         g.addColorStop(0, "rgba(45,212,191,0.07)");
         g.addColorStop(1, "transparent");
-        ctx!.fillStyle = g;
-        ctx!.fillRect(0, 0, W, H);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
       }
 
       for (let x = 0; x <= W + STEP; x += STEP) {
@@ -117,7 +117,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="hero" id="home">
+    <section ref={sectionRef} className="hero" id="home">
       <canvas ref={canvasRef} className="hero-canvas" />
       <div className="hero-orb hero-orb-1" />
       <div className="hero-orb hero-orb-2" />
