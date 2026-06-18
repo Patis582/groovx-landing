@@ -6,7 +6,7 @@ import WaitlistForm from "./WaitlistForm";
 
 const STEP = 56;
 const STRENGTH = 44;
-const RADIUS = 180;
+const RADIUS = 100;
 const SAMPLE = 3;
 
 function smoothstep(t: number) {
