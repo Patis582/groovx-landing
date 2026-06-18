@@ -5,7 +5,7 @@ import PhoneMockup from "./PhoneMockup";
 import WaitlistForm from "./WaitlistForm";
 
 const STEP = 56;
-const STRENGTH = 44;
+const STRENGTH = 22;
 const RADIUS = 100;
 const SAMPLE = 3;
 
